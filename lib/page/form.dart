@@ -1,6 +1,6 @@
+import 'package:labpbp/main.dart';
 import 'package:flutter/material.dart';
-
-import 'main.dart';
+import 'package:labpbp/page/to_do_page.dart';
 
 class MyFormPage extends StatefulWidget {
   const MyFormPage({super.key});
@@ -25,7 +25,7 @@ class _MyFormPageState extends State<MyFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Form'),
+        title: const Text('Form'),
       ),
       // Menambahkan drawer menu
       drawer: Drawer(
@@ -52,6 +52,16 @@ class _MyFormPageState extends State<MyFormPage> {
                 );
               },
             ),
+            ListTile(
+              title: const Text('To Do'),
+              onTap: () {
+                // Route menu ke halaman to do
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ToDoPage()),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -59,14 +69,8 @@ class _MyFormPageState extends State<MyFormPage> {
         key: _formKey,
         child: SingleChildScrollView(
           child: Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   // Menggunakan padding sebesar 8 pixels
@@ -103,60 +107,73 @@ class _MyFormPageState extends State<MyFormPage> {
                     },
                   ),
                 ),
-                const ListTile(
-                  leading: Icon(Icons.school),
-                  title: Text("Jenjang"),
-                ),
-                CheckboxListTile(
-                  title: const Text('Sarjana'),
-                  value: jenjangSarjana,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      jenjangSarjana = value!;
-                      if (value) {
-                        jenjangMagister =
-                            jenjangDiploma = jenjangDoktor = false;
-                      }
-                    });
-                  },
-                ),
-                CheckboxListTile(
-                  title: const Text('Diploma'),
-                  value: jenjangDiploma,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      jenjangDiploma = value!;
-                      if (value) {
-                        jenjangMagister =
-                            jenjangSarjana = jenjangDoktor = false;
-                      }
-                    });
-                  },
-                ),
-                CheckboxListTile(
-                  title: const Text('Magister'),
-                  value: jenjangMagister,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      jenjangMagister = value!;
-                      if (value) {
-                        jenjangDiploma = jenjangSarjana = jenjangDoktor = false;
-                      }
-                    });
-                  },
-                ),
-                CheckboxListTile(
-                  title: const Text('Doktor'),
-                  value: jenjangDoktor,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      jenjangDoktor = value!;
-                      if (value) {
-                        jenjangMagister =
-                            jenjangSarjana = jenjangDiploma = false;
-                      }
-                    });
-                  },
+                Container(
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const ListTile(
+                        leading: Icon(Icons.school),
+                        title: Text("Jenjang"),
+                      ),
+                      CheckboxListTile(
+                        title: const Text('Sarjana'),
+                        value: jenjangSarjana,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            jenjangSarjana = value!;
+                            if (value) {
+                              jenjangMagister =
+                                  jenjangDiploma = jenjangDoktor = false;
+                            }
+                          });
+                        },
+                      ),
+                      CheckboxListTile(
+                        title: const Text('Diploma'),
+                        value: jenjangDiploma,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            jenjangDiploma = value!;
+                            if (value) {
+                              jenjangMagister =
+                                  jenjangSarjana = jenjangDoktor = false;
+                            }
+                          });
+                        },
+                      ),
+                      CheckboxListTile(
+                        title: const Text('Magister'),
+                        value: jenjangMagister,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            jenjangMagister = value!;
+                            if (value) {
+                              jenjangDiploma =
+                                  jenjangSarjana = jenjangDoktor = false;
+                            }
+                          });
+                        },
+                      ),
+                      CheckboxListTile(
+                        title: const Text('Doktor'),
+                        value: jenjangDoktor,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            jenjangDoktor = value!;
+                            if (value) {
+                              jenjangMagister =
+                                  jenjangSarjana = jenjangDiploma = false;
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.co_present),
@@ -222,24 +239,34 @@ class _MyFormPageState extends State<MyFormPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             elevation: 15,
-                            child: Container(
-                              child: ListView(
-                                padding:
-                                    const EdgeInsets.only(top: 20, bottom: 20),
-                                shrinkWrap: true,
-                                children: <Widget>[
-                                  Center(child: const Text('Informasi Data')),
-                                  SizedBox(height: 20),
-                                  // TODO: Munculkan informasi yang didapat dari form
-                                  Text('Nama  : ' + _namaLengkap + "\nUmur  : "+ umur.toString()),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('Kembali'),
-                                  ),
-                                ],
-                              ),
+                            child: ListView(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 20),
+                              shrinkWrap: true,
+                              children: <Widget>[
+                                const Center(
+                                    child: Text('Informasi Data',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold))),
+                                const SizedBox(height: 20),
+                                Center(
+                                    child: Column(children: [
+                                  Text('Nama: $_namaLengkap'),
+                                  Text(
+                                      'Jenjang: ${jenjangDoktor ? 'Doktor' : jenjangMagister ? 'Magister' : jenjangSarjana ? 'Sarjana' : jenjangDiploma ? 'Diploma' : 'None'}'),
+                                  Text('Umur: ${umur.round()}'),
+                                  Text('Kelas: $kelasPBP'),
+                                  Text(
+                                      'Pratice: ${_nilaiSwitch ? 'on' : 'off'}'),
+                                ])),
+                                // TODO: Munculkan informasi yang didapat dari form
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Kembali'),
+                                ),
+                              ],
                             ),
                           );
                         },
